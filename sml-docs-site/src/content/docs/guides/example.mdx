@@ -4,6 +4,7 @@ description: A guide in my new Starlight docs site.
 ---
 
 import {Card, CardGrid} from "@astrojs/starlight/components";
+import {Image} from "astro:assets";
 
 
 > If you want to do this in your own system, please look at the [installation](/reference/installation/) part of our documentation. I know _literally 1984_
@@ -61,19 +62,17 @@ is the [Taylor series](https://en.wikipedia.org/wiki/Taylor_series). If you are 
 
 <CardGrid>
     <Card title="Taylor series on sin">
-        <img src="/src/assets/math/Taylor Series Sin Wikipedia.png"
-             alt="a gif showing how Talylor series can operate on ln(1 +x)"
-             style="border-radius:1rem; background-color:#ffffff;"></img>
+        <Image src={import("/src/assets/math/Taylor Series Sin Wikipedia.png")}
+               alt={"a picture showing how a Taylor polynomial works on sin "} style={"border-radius:1rem; background-color:#ffffff;"}></Image>
         The sine function (blue) is closely approximated by its Taylor polynomial of degree 7 (pink) for a full period
         centered at the origin.
         > This library uses degree 7 Taylor polynomials for sin as default
-
         source = [Wikipedia](https://en.wikipedia.org/wiki/Taylor_series)
     </Card>
 
     <Card title="Taylor series on <math>ln(1+x)</math>">
-        <img src="/src/assets/math/Taylor Series Log Wikipedia.gif"
-             alt="a gif showing how Talylor series can operate on ln(1 +x)" style="border-radius:1rem;"></img>
+        <Image src={import("/src/assets/math/Taylor Series Log Wikipedia.gif")}
+               alt={"a gif showing how taylor series works on ln(1+x)"} style={"border-radius:1rem; background-color:#ffffff;"}></Image>
         The Taylor approximations for
         <math>ln(1 + x)</math>
         (black). For x > 1, the approximations diverge.
