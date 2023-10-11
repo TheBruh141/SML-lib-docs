@@ -1,0 +1,102 @@
+---
+title: Errors and Logging
+description: How To Use The errors_and_logging.h/c files
+---
+
+# Error Handling and Logging
+
+This documentation provides an overview of the error handling and logging features in the SML C Library.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Error Codes](#error-codes)
+- [Error Configuration](#error-configuration)
+- [Logging Severity Levels](#logging-severity-levels)
+- [API Reference](#api-reference)
+
+## Introduction
+
+The SML-lib Library offers comprehensive error handling and logging capabilities. This library allows you to manage errors,
+log messages, and configure error handling behavior in your C applications. In the most _silly goose_ proof way
+## Logging Severity Levels
+
+The library supports various logging severity levels to help categorize log messages. These levels are:
+
+1. LOG_SEVERITY_DEBUG
+2. LOG_SEVERITY_INFO
+3. LOG_SEVERITY_DEPRECATION
+4. LOG_SEVERITY_WARNING
+5. LOG_SEVERITY_ERROR
+
+
+
+## Error Codes
+
+The library defines various error codes to help you identify and handle different types of errors. Here are some of the commonly used error codes:
+
+- `ERROR_OK`: No error occurred.
+- `ERROR_GENERIC`: A generic error.
+- `ERROR_INVALID_INPUT`: Invalid input data.
+- `ERROR_OUT_OF_MEMORY`: Memory allocation failed (generic).
+- `ERROR_IO_ERROR`: IO error (probably user error).
+- `ERROR_UNSUPPORTED`: Feature not supported.
+- `ERROR_OVERFLOW`: If an overflow is detected.
+- `ERROR_INVALID_STATE`: If an invalid state is detected.
+
+:::tip[Looking For More Errors?]
+If you are the type that needs more errors than the initial ones we have got you covered as well. Just have a look at the source code at [here](https://github.com/Neq141/SML-Lib/blob/main/modules/errors_and_logging.h)
+It does not bite (If you are careful).
+:::
+
+
+
+## Error Configuration
+
+### `sml_error_config` Structure
+
+The `sml_error_config` structure allows you to configure error handling and logging behavior. It includes the following members:
+
+- `name`: The name associated with the error configuration.
+- `has_log_file`: Indicates if a log file is enabled.
+- `has_set_log_file`: Indicates if a custom log file location is set.
+- `log_file_location`: The location where the log file will be stored.
+
+### Initialization
+
+You can initialize an `sml_error_config` instance using the `init_sml_error` function.
+
+```c
+sml_error_config cfg = init_sml_error("MyApp", true, "./myapp_logs/");
+```
+---
+## API Reference
+
+#### sml_throw_error
+This function throws an error and logs a message. It also exits the program when encountering an error depending on the severity. This can be changed in the library by <b>YOU</b>
+
+```c
+void sml_throw_error(sml_error_config *cfg, enum sml_error_codes err_code,
+enum sml_log_severity severity, char *msg, ...);
+```
+#### sml_throw_error_non_blocking
+
+Similar to sml_throw_error, this function throws an error and logs a message but does not exit the program when encountering an error.
+```c
+void sml_throw_error_non_blocking(sml_error_config *cfg,
+enum sml_error_codes err_code, enum sml_log_severity severity, char *msg,...);
+```
+
+#### sml_log_severity_to_string
+Converts logging severity level to a string.
+```c
+char *sml_log_severity_to_string(enum sml_log_severity severity);
+```
+
+#### sml_error_to_string
+
+Converts error codes to a string
+```c
+char *sml_error_to_string(enum sml_error_codes err_code);
+```
+

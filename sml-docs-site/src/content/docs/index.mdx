@@ -1,0 +1,81 @@
+---
+title: Welcome to SML-Lib
+description: A general purpose C library for not dealing with syntactic sugar
+template: splash
+hero:
+  tagline: A general purpose C library for not dealing with syntactic sugar and my <i>personal</i> c library too...
+  image:
+    file: ../../assets/SML-logo-colored-downscale.png
+  actions:
+    - text: Example Guide
+      link: /guides/example/
+      icon: right-arrow
+      variant: primary
+    - text: Read the SML-lib docs
+      link: /reference/installation/
+      icon: external
+---
+
+import { Card, CardGrid} from '@astrojs/starlight/components';
+
+## What can you do with this library?
+
+<CardGrid stagger>
+	<Card title="Non-obfuscated Source Files" icon="pencil">
+		What you see is what you get. There is nothing separating you from the library.
+	</Card>
+	<Card title="This Library is <i>your</i> library" icon="add-document">
+        SML-Lib is licensed under BSD-3 clause meaning that you can redistribute this library with or without modification.
+	</Card>
+	<Card title="Platform and compiler independent math" icon="setting">
+		Doing math is suprisingly <b>hard</b> and when I mean hard I really mean <i><b>HARD</b></i> it includes platform/compiler and chip specific things like
+        [`__sin(x)`](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html) or any other compiler specific math macro/function that might optimize your code
+        on one platform but fail miserably on another\*.
+	</Card>
+	<Card title="Headless and Full module integration" icon="open-book">
+        To bring the best memory efficiency for compiled programs this library is designed to be as interoperable with itself even when some of its necessary librarys are missing.
+        This leads to variable behavior meaning that if you if you include one library but not the other your libary will work as expected but may change behavior when paired with another library.
+	</Card>
+</CardGrid>
+
+
+:::caution[*Math]
+I'm not trying to downplay any major or minor c compiler out there. This is not a substitute for a proper heavyweight math library at this moment in time.
+Anybody who has contributed in any way shape or form to these libraries is undeniably a tech wizard.
+:::
+
+---
+
+### An example of what this library can do
+
+```c
+#include <stdio.h>
+#include "modules/errors_and_logging.h"
+#include "modules/common_bindings.h"
+#include "modules/math.h"
+
+int main(void) {
+    printf("hello you!\n");
+    printf("this is a file where you can try sml_lib without copying it :D\n");
+
+    sml_error_config err_conf = init_sml_error(
+            "SML_SANDBOX",
+            false,
+            NULL
+    );
+
+    // math.h does not rely on any preexisting math library. Let's it's check accuracy!
+    printf("%f", LOGARITHM_ACC);
+
+    // since we know that sin^2 + cos^2 = 1
+    for (sml_size_t degree = 0; degree < 90; degree++) {
+        printf("sin = %f, cos = %f, Accuracy = %f\n", sml_sin(degree), sml_cos(degree),
+               sml_float_abs((sml_pow(sml_sin(degree), 2) + sml_pow(sml_cos(degree), 2))));
+    }
+    // note that using --ffast-math will change the output.
+    // this is not because of any fancy tricks. This is just a pure math/skill issue.
+    sml_throw_error(&err_conf, ERROR_OK, LOG_SEVERITY_INFO, "DONE!, %s", "With Style");
+
+    return 0;
+}
+```

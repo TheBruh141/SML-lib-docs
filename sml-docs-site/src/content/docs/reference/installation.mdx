@@ -1,0 +1,121 @@
+---
+title: Installation
+description: How To install SML-Lib
+sidebar:
+    order: 1
+    badge:
+        text: Starters!
+        variant: tip
+---
+
+import {Tabs, TabItem} from '@astrojs/starlight/components';
+
+## Dependencies:
+
+To install this library you need:
+
+1. C Compiler: Specify the version of the C compiler required (e.g., GCC, Clang).
+2. Git
+> Cmake or make or any kind of makefile system is needed to utilize this library at full potencial, but you can
+> use manual commands only if you are a Giga Chad tho.
+
+---
+## Installation Steps
+
+<Tabs>
+    <TabItem label="Linux">
+        ### Installing Git on Linux
+        if you are using linux you must have git installed on your system, so.
+
+        ```bash
+        git clone https://github.com/Neq141/SML-Lib .
+        ```
+
+        or
+        ```bash
+        git clone --depth 1 https://github.com/Neq141/SML-Lib .
+        ```
+    </TabItem>
+    <TabItem label="Mac">
+        ### Installing Git on Mac
+
+        Most versions of MacOS will already have Git installed, and you can activate it through the terminal with git
+        version. However, if you don't have Git installed for whatever reason, you can install the latest version of Git
+        using one of several popular methods as listed below:
+        1. Install Git From an Installer
+
+        Navigate to the latest [macOS Git
+        Installer](https://sourceforge.net/projects/git-osx-installer/files/git-2.23.0-intel-universal-mavericks.dmg/download?use_mirror=autoselect)
+        and download the latest version.
+        Once the installer has started, follow the instructions as provided until the installation is complete.
+        Open the command prompt "terminal" and type git version to verify Git was installed.
+
+        > **NOTE**: `git-scm` is a popular and recommended resource for downloading Git on a Mac. The advantage of
+        downloading Git from git-scm is that your download automatically starts with the latest version of Git. The
+        download source is the same macOS Git Installer as referenced in the steps above.
+        Install Git from Homebrew
+
+        2. Homebrew is a popular package manager for macOS. If you already have Homwbrew installed, you can follow the
+        below steps to install Git:
+
+        Open up a terminal window and install Git using the following command:
+        ```bash
+        brew install git.
+        ```
+        Once the command output has completed, you can verify the installation by typing:
+
+        ```bash
+        git version.
+        ```
+
+        > _NOTE_: (This text was taken from [here](https://github.com/git-guides/install-git) with the links included)
+
+        if it does not give an error well you are ready to install the package!
+
+
+        ```bash
+        git clone https://github.com/Neq141/SML-Lib .
+        ```
+
+        or
+        ```bash
+        git clone --depth 1 https://github.com/Neq141/SML-Lib .
+        ```
+    </TabItem>
+    <TabItem label="Windows">
+        ### Install Git on Windows
+
+        1. Navigate to the latest Git for Windows installer and download the latest version.
+        2. Once the installer has started, follow the instructions as provided in the Git Setup wizard screen until the
+        3. installation is complete.
+        4. Open the windows command prompt (or Git Bash if you selected not to use the standard Git Windows Command
+        Prompt
+        during the Git installation).
+        Type `git version` to verify Git was installed.
+
+        ```cmd
+        git version
+        ```
+
+        > Note: git-scm is a popular and recommended resource for downloading Git for Windows. The advantage of
+        downloading Git from git-scm is that your download automatically starts with the latest version of Git included
+        with the recommended command prompt, Git Bash . The download source is the same Git for Windows installer as
+        referenced in the steps above.
+
+        > _NOTE_: (This text was taken from [here](https://github.com/git-guides/install-git) with the links included)
+
+
+        ```cmd
+        git clone https://github.com/Neq141/SML-Lib .
+        ```
+
+        or
+        ```cmd
+        git clone --depth 1 https://github.com/Neq141/SML-Lib .
+        ```
+    </TabItem>
+</Tabs>
+
+:::caution[`--depth 1`]
+This commands git to only _shallow clone_ which can introduce some problems (%1 of the time) but allows for <b>Blazing</b> fast clone times.
+:::

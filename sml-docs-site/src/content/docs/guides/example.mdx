@@ -1,0 +1,137 @@
+---
+title: How to use the library?
+description: A guide in my new Starlight docs site.
+---
+
+import {Card, CardGrid} from "@astrojs/starlight/components";
+
+
+> If you want to do this in your own system, please look at the [installation](/reference/installation/) part of our documentation. I know _literally 1984_
+
+---
+
+If you have completed the installation, you will get something like this in your directory.
+
+```shell
+.
+├── CMakeLists.txt
+├── demo.c
+├── LICENCE.txt
+├── modules
+│   ├── allocators.c
+│   ├── allocators.h
+│   ├── common_bindings.h
+│   ├── errors_and_logging.c
+│   ├── errors_and_logging.h
+│   ├── literal_array.c
+│   ├── literal_array.h
+│   ├── math.c
+│   └── math.h
+└── README.md
+```
+
+This might seem scary at first. Because it is. This library uses Cmake to build itself, but you can use whatever build system you want.
+Just make sure to know that the accuracy of the `math.h/c` module will be based on your compile flags (ie. `--ffast-math`, `-Ofast` ).
+Our Trigonometry functions and exponential functions rely on them, and here is the full list of them.
+
+```c
+// exponential functions; //
+long double sml_exp_pi(void); // Returns the exponential value of x (e^pi).
+long double sml_exp(double x); // Returns the exponential value of x (e^x).
+
+long double sml_log2(double x); // Returns the base 2 logarithm of x.
+long double sml_log10(double x); // Returns the base 10 logarithm of x. But wit high accuracy
+long double sml_log_e(double x); // Returns the natural logarithm of x (base e). But wit high accuracy
+long double sml_log_pi(double x); // Returns the natural logarithm of x (base pi). But wit high accuracy
+long double sml_nlog(double x, double n); // Returns the natural logarithm of x (x^n). But wit high accuracy
+
+// power functions that are not bound to whole numbers; //
+long double sml_pow(long double base, long double expo); // Returns x raised to the power of y (x^y).
+double sml_sqrt(double n); // Returns the square root of x.
+double sml_nth_root_double(double x, sml_size_t_s n); // Returns the nth root of x
+```
+
+:::caution[`LOG ACCURACY`]
+This is the defined accuracy of your logarithm-bound operations. it's default value is `1e-9` but can it's advised to
+change it if you need to get absolutely correct (low margin of error) in your functions.
+:::
+
+and it will affect your trigonometric functions as well. Since we cannot use the built-in `__sin(x)`, `__cos(x)` or `__tan(x)` the algorithm used
+is the [Taylor series](https://en.wikipedia.org/wiki/Taylor_series). If you are a mortal computer programmer like me here are some gifs to explain it
+
+<CardGrid>
+    <Card title="Taylor series on sin">
+        <img src="/src/assets/math/Taylor Series Sin Wikipedia.png"
+             alt="a gif showing how Talylor series can operate on ln(1 +x)"
+             style="border-radius:1rem; background-color:#ffffff;"></img>
+        The sine function (blue) is closely approximated by its Taylor polynomial of degree 7 (pink) for a full period
+        centered at the origin.
+        > This library uses degree 7 Taylor polynomials for sin as default
+
+        source = [Wikipedia](https://en.wikipedia.org/wiki/Taylor_series)
+    </Card>
+
+    <Card title="Taylor series on <math>ln(1+x)</math>">
+        <img src="/src/assets/math/Taylor Series Log Wikipedia.gif"
+             alt="a gif showing how Talylor series can operate on ln(1 +x)" style="border-radius:1rem;"></img>
+        The Taylor approximations for
+        <math>ln(1 + x)</math>
+        (black). For x > 1, the approximations diverge.
+
+        As you can see Taylor polynomials are not the best at approximation in higher values of <math>x</math> but it's
+        good enough
+
+        source = [Wikipedia](https://en.wikipedia.org/wiki/Taylor_series)
+    </Card>
+</CardGrid>
+
+
+
+
+So let's put this newly learned information to use. Let's make a quick script for testing this library accuracy.
+
+:::tip[How to test accuracy?]
+Since we know that all trigonometric functions are derived from the unit circle and the hypotenuse on the unit circle is
+_1_ It means that for any arbitrary triangle that is in the unit circle and atleast one of its vertexes are touching the
+origin and at least one of its vertexes are touching the perimeter of the circle. We can calculate that.
+
+$$ \sqrt{sin^{2}(x) \times cos^{2}(x)} = 1$$
+
+and to check our accuracy, we will need to measure how close to 1 we get.
+:::
+
+the code is
+
+```c
+#include <stdio.h>
+#include "modules/errors_and_logging.h"
+#include "modules/common_bindings.h"
+#include "modules/math.h"
+
+int main(void) {
+    printf("hello you!\n");
+    printf("this is a file where you can try sml_lib without copying it :D\n");
+
+    sml_error_config err_conf = init_sml_error(
+            "SML_SANDBOX",
+            false,
+            NULL
+    );
+
+    // math.h does not rely on any preexisting math library. Let's it's check accuracy!
+    printf("%f", LOGARITHM_ACC);
+
+    // since we know that sin^2 + cos^2 = 1
+    for (sml_size_t degree = 0; degree < 90; degree++) {
+        printf("sin = %f, cos = %f, Accuracy = %f\n", sml_sin(degree), sml_cos(degree),
+               sml_float_abs((sml_pow(sml_sin(degree), 2) + sml_pow(sml_cos(degree), 2))));
+    }
+    // note that using --ffast-math will change the output.
+    // this is not because of any fancy tricks. This is just a pure math/skill issue.
+    sml_throw_error(&err_conf, ERROR_OK, LOG_SEVERITY_INFO, "DONE!, %s", "With Style");
+
+    return 0;
+```
+If your system is fully and _correctly_ set up your margin of error should be ~0.1.
+If not you might wanna tweak the settings on the `math.h` file and if the issue persists please open an issue on the
+[git repository](https://github.com/Neq141/SML-Lib). Happy coding.

@@ -1,0 +1,101 @@
+---
+title: Memory allocation
+---
+
+This documentation provides insights into memory allocation functions and error handling mechanisms in the SML C Library.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Memory Allocation Functions](#memory-allocation-functions)
+    - [`sml_alloc`](#sml_alloc)
+    - [`sml_malloc`](#sml_malloc)
+    - [`sml_calloc`](#sml_calloc)
+    - [`sml_realloc`](#sml_realloc)
+    - [`sml_realloc_s`](#sml_realloc_s)
+- [Error Handling](#error-handling)
+- [Example Usage](#example-usage)
+
+## Introduction
+
+The SML C Library provides memory allocation functions for efficient memory management in C applications.
+Additionally, it offers error handling capabilities to handle memory allocation failures gracefully.
+
+>This does not mean that this library make C typesafe or anything. It's actually anything but that.
+At this moment It just allows you to remove the syntactic sugar to make the code safe.
+
+Basically your code goes from this,
+```c
+#ifdef DEBUG
+int* arr = (int*) calloc(5, sizeof(int));
+#else
+int* arr = (int*) malloc(5 * sizeof(int));
+#endif
+
+if (arr == NULL){
+    fprinf(stderr, "Uh Oh. (-_-)");
+}
+```
+
+to this.
+```c
+// errors_and_logging.c
+#define DEBUG 1
+```
+
+```
+// your_good_code.c
+int* arr = sml_alloc(5, sizeof(int));
+```
+as you can see, this allows for more readable code and easier debugging.
+
+:::tip[Extensibility]
+This modules behavior changes on which library's you have included. Including `errors_and_debugging.h` in your main code
+will result in better error messages but is not a necessity.
+:::
+
+## Memory Allocation Functions
+
+### `sml_alloc`
+> glorified switch statement between `sml_malloc()` and `sml_calloc()`
+
+The `sml_alloc` function allocates memory for a specified amount of data, checking for overflow and underflow.
+And changes behavior on `#define DEBUG`'s property. If your program is on debug mode all your memory allocation from this function will be redirected to
+`sml_calloc`. if not they will be redirected to `sml_malloc()`.
+
+```c
+void *sml_alloc(unsigned long long how_much, unsigned long long sizeof_mem);
+```
+
+
+### `sml_calloc()`
+
+a wrapper around `calloc()` that checks for data validity.
+
+```c
+void *sml_calloc(unsigned long long how_much, unsigned long long sizeof_mem);
+```
+
+### `sml_malloc()`
+
+a wrapper around `malloc()` that checks for data validity.
+
+```c
+void *sml_malloc(unsigned long long size);
+```
+
+### `sml_realloc`
+
+a wrapper around `realloc()` that checks for data validity.
+```c
+void *sml_realloc(void *ptr, unsigned long long new_requested_size);
+```
+
+### `sml_realloc_s()`
+
+`sml_realloc`'s neighbor but she is way more stubborn. If it encounters an error. It will try to literally try to relocate
+the memory to a different position in memory to not let your program fail. Truly one of the functions of all time
+
+```c
+void *sml_realloc_s(void *ptr, unsigned long long new_requested_size);
+```
