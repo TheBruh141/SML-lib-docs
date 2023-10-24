@@ -2,14 +2,61 @@
 title: math
 ---
 
-> I swear I could have gotten a PhD. in math if I were to do this much research in school
->> Bruh141 (core maintainer)
+> I swear I could have gotten a PhD. in math if I were to do this much research in school> Bruh141 (core developer)
 
 ---
-
-This page will come _eventually_ but for now you will have to read the code. Sorry...
 
 :::tip[Fun Fact]
 This module of the library has more than 200 definitions. Including the constant definitions.
 :::
 
+---
+## Math Macros
+First things first Macros. Every good library has them.
+
+###### `#define SML_IS_UNSIGNED(x) ((x) >= 0)`
+Checks if x is an unsigned integer.
+
+###### `#define SML_IS_ODD(x) ((x) % 2 != 0)`
+Checks if x is an odd integer.
+
+###### `#define SML_IS_EVEN(x) ((x) % 2 == 0)`
+Checks if x is an even integer.
+
+###### `#define SML_GET_FLOAT_OF_FLOATING(x) ((x) - (int)(x))`
+Extracts the fractional part of a floating-point number x.
+
+###### `#define SML_GET_WHOLE_OF_FLOATING(x) ((int)(x))`
+Extracts the whole part of a floating-point number x.
+
+###### `#define SML_IS_NUMBER(x) ((x) - (int)(x) == 0)`
+Checks if a number is _well_ a number
+
+---
+
+## Math Types
+### Structs
+
+
+```c
+typedef struct sml_math_t {
+#ifdef HIGH_ACCURACY
+    long double value;
+    long double degree;
+#else
+    double value;
+    double degree; // ie. degree.th root of val
+#endif
+    sml_num_type type; // ie. sqrt/imaginary or not
+    bool is_imaginary; // I mean it can be sqrt(-1) so its both a sqrt and imaginary
+    struct sml_math_t *related; // this is for adding ie. 3sqrt(5) or i5 + 3
+} sml_math_t;
+```
+### Enums
+```c
+typedef enum {
+_int = 0, _float, _irrational, _imaginary, _degree, _radian, _gradian
+} sml_num_type;
+```
+
+Last Updated: Oct 20, 2023

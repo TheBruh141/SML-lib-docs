@@ -31,6 +31,16 @@ If you have completed the installation, you will get something like this in your
 └── README.md
 ```
 
+:::tip[Every function on this library starts with a prefix]
+Since C does not have any built in way for identifying between which functions are coming from where we need to put a prefix for evey function.
+
+-  sml -> general prefix
+-  error -> file prefix
+-  throw -> function name
+
+we get `sml_error_throw()`
+:::
+
 This might seem scary at first. Because it is. This library uses Cmake to build itself, but you can use whatever build system you want.
 Just make sure to know that the accuracy of the `math.h/c` module will be based on your compile flags (ie. `--ffast-math`, `-Ofast` ).
 Our Trigonometry functions and exponential functions rely on them, and here is the full list of them.
@@ -63,7 +73,8 @@ is the [Taylor series](https://en.wikipedia.org/wiki/Taylor_series). If you are 
 <CardGrid>
     <Card title="Taylor series on sin">
         <Image src={import("/src/assets/math/Taylor Series Sin Wikipedia.png")}
-               alt={"a picture showing how a Taylor polynomial works on sin "} style={"border-radius:1rem; background-color:#ffffff;"}></Image>
+               alt={"a picture showing how a Taylor polynomial works on sin "}
+               style={"border-radius:1rem; background-color:#ffffff;"}></Image>
         The sine function (blue) is closely approximated by its Taylor polynomial of degree 7 (pink) for a full period
         centered at the origin.
         > This library uses degree 7 Taylor polynomials for sin as default
@@ -72,7 +83,8 @@ is the [Taylor series](https://en.wikipedia.org/wiki/Taylor_series). If you are 
 
     <Card title="Taylor series on <math>ln(1+x)</math>">
         <Image src={import("/src/assets/math/Taylor Series Log Wikipedia.gif")}
-               alt={"a gif showing how taylor series works on ln(1+x)"} style={"border-radius:1rem; background-color:#ffffff;"}></Image>
+               alt={"a gif showing how taylor series works on ln(1+x)"}
+               style={"border-radius:1rem; background-color:#ffffff;"}></Image>
         The Taylor approximations for
         <math>ln(1 + x)</math>
         (black). For x > 1, the approximations diverge.
@@ -94,7 +106,7 @@ Since we know that all trigonometric functions are derived from the unit circle 
 _1_ It means that for any arbitrary triangle that is in the unit circle and atleast one of its vertexes are touching the
 origin and at least one of its vertexes are touching the perimeter of the circle. We can calculate that.
 
-$$ \sqrt{sin^{2}(x) \times cos^{2}(x)} = 1$$
+$$ sin^{2}(x) \times cos^{2}(x) = 1$$
 
 and to check our accuracy, we will need to measure how close to 1 we get.
 :::

@@ -22,7 +22,7 @@ The SML C Library provides memory allocation functions for efficient memory mana
 Additionally, it offers error handling capabilities to handle memory allocation failures gracefully.
 
 >This does not mean that this library make C typesafe or anything. It's actually anything but that.
-At this moment It just allows you to remove the syntactic sugar to make the code safe.
+At this moment, It just allows you to remove the syntactic sugar to make the code safe.
 
 Basically your code goes from this,
 ```c
@@ -50,7 +50,7 @@ int* arr = sml_alloc(5, sizeof(int));
 as you can see, this allows for more readable code and easier debugging.
 
 :::tip[Extensibility]
-This modules behavior changes on which library's you have included. Including `errors_and_debugging.h` in your main code
+This module's behavior changes on which library's you have included. Including `errors_and_debugging.h` in your main code
 will result in better error messages but is not a necessity.
 :::
 

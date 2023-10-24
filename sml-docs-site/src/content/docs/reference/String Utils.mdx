@@ -1,0 +1,88 @@
+---
+title : String Utils
+---
+
+SML_STR Library Documentation
+Overview
+
+The SML_STR Library is a C library that provides basic string manipulation functionality. It allows you to create, manage, and manipulate string data structures. This library is intended to be lightweight and simple to use.
+
+The SML_STR Library consists of two header files:
+
+- [**sml_str.h**](https://github.com/Neq141/SML-Lib/blob/dev/modules/sml_str.h): Contains the data structure definition and function prototypes for string manipulation.
+- [**common_bindings.h**](https://github.com/Neq141/SML-Lib/blob/dev/modules/common_bindings.h): This header file appears to include common definitions used throughout the library but is not explicitly documented in the code snippet provided.
+
+### Data Structures
+```c
+typedef struct {
+char *contents;  // Pointer to the string's character data
+sml_size capacity;  // Total capacity of the string
+sml_size last_index;  // Index of the last character in the string
+} sml_str;
+```
+1. **contents**: A pointer to the character data of the string.
+2. **capacity**: The total allocated capacity for the string.
+3. **last_index**: The index of the last character in the string.
+
+### Functions overview
+#### Basic functions
+##### sml_str_new: Creates a new sml_str instance.
+1. **Parameters**:
+    - **contents**: A pointer to a null-terminated character array that initializes the string. It can be NULL for an empty string.
+2. **Return Value**: A pointer to the newly created sml_str instance.
+
+##### sml_str_double_capacity and sml_str_double_capacity_force
+sml_str_double_capacity
+    Description: Doubles the capacity of a sml_str instance if it's full.
+    Parameters:
+        contents: A pointer to the sml_str instance to increase the capacity of.
+    Return Value:
+        SML_STR_SUCCESS (1): If the reallocation is successful.
+        SML_STR_FAIL (0): If reallocation fails.
+
+sml_str_double_capacity_force
+```c
+_Bool sml_str_double_capacity(sml_str *contents);
+```
+```c
+_Bool sml_str_double_capacity_force(sml_str *contents);
+```
+Description: Doubles the capacity of a sml_str instance using malloc and copying data, even if it's not full.
+Parameters:
+contents: A pointer to the sml_str instance to increase the capacity of.
+Return Value:
+SML_STR_SUCCESS (1): If the reallocation is successful.
+SML_STR_FAIL (0): If reallocation fails.
+
+sml_str_append
+
+c
+
+_Bool sml_str_append(sml_str *dest, char *to_append);
+
+    Description: Appends a character array to an sml_str instance, extending its capacity if necessary.
+    Parameters:
+        dest: A pointer to the sml_str instance to which the to_append string will be appended.
+        to_append: A pointer to the null-terminated character array to be appended.
+    Return Value:
+        SML_STR_SUCCESS (1): If the append operation is successful.
+        SML_STR_FAIL (0): If the operation fails (e.g., reallocation fails).
+
+sml_str_help
+
+c
+
+void sml_str_help();
+
+    Description: Prints information about the SML_STR library, particularly about a MAKE_GENERIC define, which is not explicitly documented in the provided code snippet.
+
+Usage
+
+    Include the necessary header files in your C program.
+    Use the functions provided by the SML_STR library to create, manipulate, and manage string data.
+
+Note
+
+    The library seems to have a define MAKE_GENERIC that might impact how types are named, but this is not documented in the provided code snippet. Be sure to check for any other documentation or code files related to this library to understand its full functionality and usage.
+
+Free Research Preview. ChatGPT may produce inaccurate information about people, places, or facts. ChatGPT September 25 Version

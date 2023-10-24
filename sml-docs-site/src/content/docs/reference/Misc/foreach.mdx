@@ -1,0 +1,12 @@
+---
+title: Miscellaneous Files And Functions
+---
+
+# Foreach
+`Foreach` implementation in c. It's so basic that here is the entire file contents.
+```c
+// library decl...
+#define foreach(item, array) \
+for (size_t i = 0; i < sizeof(array) / sizeof(array[0]) && ((item) = (array)[i], 1); ++i)
+// library decl...
+```
