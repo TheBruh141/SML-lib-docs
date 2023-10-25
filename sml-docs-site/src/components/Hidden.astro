@@ -1,0 +1,43 @@
+---
+const {visible = "CHANGE THIS SETTING", hidden = "CHANGE THIS SETTING BUT HIDDEN"} = Astro.props
+---
+
+
+<style>
+    span#line1 span#a {
+        display: inherit;
+    }
+
+    span#line1:hover span#a {
+        display: none;
+    }
+
+    span#line1 span#b {
+        display: none;
+    }
+
+    span#line1:hover span#b {
+        display: inline;
+    }
+
+    b {
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 30%, #FFCC70 100%) !important;
+        background-clip: text !important;
+        font-weight: 800;
+        -webkit-text-fill-color: transparent;
+    }
+
+    b:hover {
+        cursor:none !important;
+    }
+
+
+</style>
+
+
+<span class="rainbow">
+<span id="line1">
+
+                <b><span id="a">{visible}</span><span id="b">{hidden}</span></b>
+</span>
+</span>
