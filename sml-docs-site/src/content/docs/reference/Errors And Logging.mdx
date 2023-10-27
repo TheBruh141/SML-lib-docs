@@ -73,7 +73,9 @@ sml_error_config cfg = init_sml_error("MyApp", true, "./myapp_logs/");
 ## API Reference
 
 #### sml_throw_error
-This function throws an error and logs a message. It also exits the program when encountering an error depending on the severity. This can be changed in the library by <b>YOU</b>
+This function throws an error and logs a message.
+It also exits the program when encountering an error depending on the severity.
+This can be changed in the library by <b> YOU </b>
 
 ```c
 void sml_throw_error(sml_error_config *cfg, enum sml_error_codes err_code,
